@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+*.jar
+target/
+*.class
+.DS_Store
+Thumbs.db
+*.log
+generate_backend.py
