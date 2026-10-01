@@ -1,8 +1,17 @@
-import api from '../lib/axios';
-import { User, UserStats } from '../types/api';
+import { mockUsers } from '../lib/mockDb';
+
+function getToken(): string {
+  return localStorage.getItem('token') || '';
+}
 
 export const profileService = {
-  getProfile: () => api.get<User>('/profile'),
-  updateProfile: (data: Partial<User>) => api.put<User>('/profile', data),
-  getStats: () => api.get<UserStats>('/profile/stats'),
+  getProfile: async () => {
+    const data = await mockUsers.getMe(getToken());
+    return { data };
+  },
+
+  updateProfile: async (profileData: any) => {
+    const data = await mockUsers.updateMe(getToken(), profileData);
+    return { data };
+  },
 };

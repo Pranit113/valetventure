@@ -1,10 +1,42 @@
-import api from '../lib/axios';
-import { TripDay, Activity } from '../types/api';
+import { mockDays, mockActivities } from '../lib/mockDb';
+
+function getToken(): string {
+  return localStorage.getItem('token') || '';
+}
 
 export const dayService = {
-  getById: (id: string) => api.get<TripDay>(`/days/${id}`),
-  addActivity: (dayId: string, data: Partial<Activity>) => api.post<Activity>(`/days/${dayId}/activities`, data),
-  updateActivity: (id: string, data: Partial<Activity>) => api.put<Activity>(`/activities/${id}`, data),
-  deleteActivity: (id: string) => api.delete(`/activities/${id}`),
-  reorderActivities: (dayId: string, activityIds: string[]) => api.put(`/days/${dayId}/activities/reorder`, { activityIds }),
+  createDay: async (tripId: string, data: any) => {
+    const result = await mockDays.create(getToken(), tripId, data);
+    return { data: result };
+  },
+
+  updateDay: async (dayId: string, data: any) => {
+    const result = await mockDays.update(getToken(), dayId, data);
+    return { data: result };
+  },
+
+  deleteDay: async (dayId: string) => {
+    await mockDays.delete(getToken(), dayId);
+    return { data: {} };
+  },
+
+  createActivity: async (dayId: string, data: any) => {
+    const result = await mockActivities.create(getToken(), dayId, data);
+    return { data: result };
+  },
+
+  updateActivity: async (activityId: string, data: any) => {
+    const result = await mockActivities.update(getToken(), activityId, data);
+    return { data: result };
+  },
+
+  deleteActivity: async (activityId: string) => {
+    await mockActivities.delete(getToken(), activityId);
+    return { data: {} };
+  },
+
+  reorderActivity: async (activityId: string, sortOrder: number) => {
+    await mockActivities.reorder(getToken(), activityId, sortOrder);
+    return { data: {} };
+  },
 };

@@ -5,6 +5,11 @@ export interface User {
   displayName: string;
   bio?: string;
   avatarUrl?: string;
+  profilePhotoUrl?: string;
+  instagramUsername?: string;
+  currency?: string;
+  countriesVisited?: number;
+  citiesVisited?: number;
 }
 
 export interface AuthResponse {
@@ -30,17 +35,24 @@ export enum TravelMode {
 
 export interface Trip {
   id: string;
+  userId?: string;
   name: string;
   destination: string;
   startDate: string;
   endDate: string;
-  travelers: number;
-  type: TripType;
-  travelMode: TravelMode;
+  travelers?: number;
+  numberOfTravelers?: number;
+  type?: TripType;
+  tripType?: TripType;
+  travelMode?: TravelMode;
   currency: string;
   coverImage?: string;
   createdAt: string;
   updatedAt: string;
+  days?: TripDay[];
+  hotels?: Hotel[];
+  restaurants?: Restaurant[];
+  expenses?: Expense[];
 }
 
 export interface TripDay {
@@ -59,13 +71,50 @@ export interface Activity {
   name: string;
   time: string; // HH:MM
   locationName?: string;
+  googleMapsUrl?: string;
   mapsUrl?: string;
   description?: string;
   durationMinutes?: number;
+  estimatedCost?: number;
   cost?: number;
   bestTime?: string;
   notes?: string;
-  order: number;
+  sortOrder?: number;
+  order?: number;
+}
+
+export interface Hotel {
+  id: string;
+  tripId: string;
+  hotelName: string;
+  location?: string;
+  checkIn?: string;
+  checkOut?: string;
+  pricePerNight?: number;
+  bookingUrl?: string;
+  googleMapsUrl?: string;
+  notes?: string;
+}
+
+export interface Restaurant {
+  id: string;
+  tripId: string;
+  restaurantName: string;
+  location?: string;
+  meal?: string;
+  priceRange?: string;
+  googleMapsUrl?: string;
+  notes?: string;
+}
+
+export interface Expense {
+  id: string;
+  tripId: string;
+  category: string;
+  description?: string;
+  amount: number;
+  date?: string;
+  notes?: string;
 }
 
 export interface UserStats {

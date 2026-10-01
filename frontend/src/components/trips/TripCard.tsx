@@ -38,7 +38,7 @@ export default function TripCard({ trip, onClick }: TripCardProps) {
             </div>
           </div>
           <div className="bg-surface-2 dark:bg-surface-2-dark p-2 rounded-lg text-primary">
-            {getTravelModeIcon(trip.travelMode)}
+            {getTravelModeIcon(trip.travelMode ?? trip.tripType as any ?? 'FLIGHT')}
           </div>
         </div>
 
@@ -49,7 +49,7 @@ export default function TripCard({ trip, onClick }: TripCardProps) {
           </div>
           <div className="flex items-center">
             <Users className="w-4 h-4 mr-1.5" />
-            <span>{trip.travelers} {getTripTypeLabel(trip.type)}</span>
+            <span>{trip.numberOfTravelers ?? trip.travelers ?? 1} {getTripTypeLabel((trip.tripType ?? trip.type) as any ?? 'SOLO')}</span>
           </div>
         </div>
       </CardContent>

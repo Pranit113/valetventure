@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, AuthResponse } from '../types/api';
-import api from '../lib/axios';
 
 interface AuthContextType {
   user: User | null;
