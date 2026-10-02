@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { AxiosError } from 'axios';
 import { useToast } from '../contexts/ToastContext';
 
 export function useApi<T, P extends any[]>(
@@ -20,15 +19,21 @@ export function useApi<T, P extends any[]>(
         setData(response.data);
         options?.onSuccess?.(response.data);
         return response.data;
-      } catch (err) {
-        const errorObj = err instanceof Error ? err : new Error('An unknown error occurred');
-        
-        if (err instanceof AxiosError && err.response?.data?.message) {
-          errorObj.message = err.response.data.message;
+      } catch (err: any) {
+        // Handle mock DB errors: { response: { data: { message }, status } }
+        // Handle Axios errors: err.response?.data?.message
+        // Handle plain Error objects
+        let message = 'Something went wrong. Please try again.';
+
+        if (err?.response?.data?.message) {
+          message = err.response.data.message;
+        } else if (err?.message && err.message !== 'Network Error') {
+          message = err.message;
         }
 
+        const errorObj = new Error(message);
         setError(errorObj);
-        showError(errorObj.message);
+        showError(message);
         options?.onError?.(errorObj);
         throw errorObj;
       } finally {
